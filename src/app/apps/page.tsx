@@ -11,6 +11,17 @@ interface AppItem {
 
 const apps: AppItem[] = [
   {
+    name: "Emailligence.ai",
+    description: "AI-powered email intelligence and automation.",
+    href: "https://emalligence.ai/",
+  },
+  {
+    name: "Fly Listings",
+    description:
+      "Aircraft sales marketplace with free listings and full-service brokerage.",
+    href: "https://flylistings.com/",
+  },
+  {
     name: "Zade Aviation",
     description:
       "Contract pilots, aircraft management, and flight instruction nationwide.",
@@ -62,6 +73,12 @@ const apps: AppItem[] = [
     description:
       "Interactive budget tracker — input income and expenses across 12 months.",
     href: "https://budgyyy.com/budget",
+  },
+  {
+    name: "wheretheparkingat",
+    description:
+      "Discover and compare parking spots near you with real-time availability and pricing.",
+    href: "https://parknear-xi.vercel.app/search",
   },
 ];
 
