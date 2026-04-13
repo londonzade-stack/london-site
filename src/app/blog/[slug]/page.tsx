@@ -32,10 +32,12 @@ export default async function PostPage({ params }: Props) {
   return (
     <article>
       <header className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">
+        <h1 className="text-3xl font-bold tracking-tight">
           {post.meta.title}
         </h1>
-        <p className="text-sm text-muted">{post.meta.date}</p>
+        {post.meta.date && (
+          <p className="text-sm text-muted mt-2">{post.meta.date}</p>
+        )}
       </header>
       <div className="prose">
         <MDXContent source={post.content} />
