@@ -7,7 +7,18 @@ export default function Home() {
     <div>
       {/* Intro */}
       <section className="mb-16">
-        <h1 className="text-3xl font-bold tracking-tight mb-4">London Zade</h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-1">London Zade</h1>
+        <p className="text-muted mb-4">
+          Corporate pilot for{" "}
+          <a
+            href="https://www.flyslate.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground underline underline-offset-2 hover:opacity-70 transition-opacity"
+          >
+            Slate Aviation
+          </a>
+        </p>
         <p className="text-muted leading-relaxed max-w-lg">
           Pilot, entrepreneur, and builder. I fly jets, wrench on fighters in
           the Air National Guard, and build aviation companies and apps on the
