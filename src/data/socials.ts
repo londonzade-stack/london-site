@@ -1,9 +1,5 @@
 export const socials = [
   {
-    label: "GitHub",
-    href: "https://github.com/YOUR_GITHUB", // TODO: replace
-  },
-  {
     label: "X / Twitter",
     href: "https://x.com/YOUR_TWITTER", // TODO: replace
   },

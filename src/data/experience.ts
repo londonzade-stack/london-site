@@ -2,6 +2,7 @@ export interface ExperienceItem {
   company: string;
   title: string;
   date: string;
+  logo?: string; // path in /public, e.g. "/logos/slate.png"
 }
 
 export const experience: ExperienceItem[] = [
@@ -9,26 +10,31 @@ export const experience: ExperienceItem[] = [
     company: "SLATE",
     title: "First Officer",
     date: "2025–Present",
+    logo: "/logos/slate.png",
   },
   {
     company: "Wheels Up",
     title: "First Officer",
     date: "2024",
+    logo: "/logos/wheelsup.png",
   },
   {
     company: "ATP Flight School",
     title: "Lead Flight Instructor",
     date: "2023–2024",
+    logo: "/logos/atp.png",
   },
   {
     company: "Beach Banners",
     title: "Contract Pilot & Flight Instructor",
     date: "2023–2024",
+    logo: "/logos/beachbanners.png",
   },
   {
     company: "Skydive Amelia",
     title: "Jump Pilot",
     date: "2023",
+    logo: "/logos/skydiveamelia.png",
   },
   {
     company: "USAF Air National Guard",
@@ -39,6 +45,7 @@ export const experience: ExperienceItem[] = [
     company: "UPS",
     title: "Revenue Recovery",
     date: "2019–2021",
+    logo: "/logos/ups.png",
   },
   {
     company: "AJM Packaging",

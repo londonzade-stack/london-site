@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { socials } from "@/data/socials";
 import { experience, companies } from "@/data/experience";
 
@@ -37,13 +38,23 @@ export default function Home() {
               className="flex items-start justify-between gap-4 py-3 border-b border-border"
             >
               <div className="flex items-center gap-4 min-w-0">
-                <div className="h-10 w-10 shrink-0 rounded-full bg-neutral-100 flex items-center justify-center text-xs font-medium text-muted">
-                  {item.company
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")
-                    .slice(0, 2)}
-                </div>
+                {item.logo ? (
+                  <Image
+                    src={item.logo}
+                    alt={item.company}
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 shrink-0 rounded-full object-contain bg-neutral-100"
+                  />
+                ) : (
+                  <div className="h-10 w-10 shrink-0 rounded-full bg-neutral-100 flex items-center justify-center text-xs font-medium text-muted">
+                    {item.company
+                      .split(" ")
+                      .map((w) => w[0])
+                      .join("")
+                      .slice(0, 2)}
+                  </div>
+                )}
                 <div className="min-w-0">
                   <p className="font-medium text-sm">{item.title}</p>
                   <p className="text-sm text-muted">{item.company}</p>
