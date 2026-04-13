@@ -81,14 +81,14 @@ export default function Home() {
               key={item.name}
               className="flex items-center gap-4 px-4 py-3"
             >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white border border-neutral-200">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white border border-neutral-200 p-1.5">
                 {item.logo ? (
                   <Image
                     src={item.logo}
                     alt={item.name}
-                    width={44}
-                    height={44}
-                    className="h-9 w-9 object-contain"
+                    width={56}
+                    height={56}
+                    className="h-full w-full object-contain"
                   />
                 ) : (
                   <span className="text-xs font-semibold text-muted">
