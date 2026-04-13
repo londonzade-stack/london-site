@@ -12,8 +12,9 @@ interface AppItem {
 const apps: AppItem[] = [
   {
     name: "Emailligence.ai",
-    description: "AI-powered email intelligence and automation.",
-    href: "https://emalligence.ai/",
+    description:
+      "AI-powered email management — search, draft, organize, and analyze your inbox.",
+    href: "https://emailligence.ai/",
   },
   {
     name: "Fly Listings",
