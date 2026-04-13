@@ -20,8 +20,8 @@ export default function Home() {
           </a>
         </p>
         <p className="text-muted leading-relaxed max-w-lg">
-          Pilot, entrepreneur, and builder. I fly jets, wrench on fighters in
-          the Air National Guard, and build aviation companies and apps on the
+          Pilot, entrepreneur, and builder. I fly jets, former wrencher on
+          fighters in the Air National Guard, I build companies and apps on the
           side. Always chasing the next thing worth building.
         </p>
         <div className="mt-5 flex flex-wrap gap-4">
