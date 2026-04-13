@@ -81,14 +81,24 @@ export default function Home() {
               key={item.name}
               className="flex items-center gap-4 px-4 py-3"
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white border border-neutral-200">
-                <span className="text-xs font-semibold text-muted">
-                  {item.name
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")
-                    .slice(0, 2)}
-                </span>
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white border border-neutral-200">
+                {item.logo ? (
+                  <Image
+                    src={item.logo}
+                    alt={item.name}
+                    width={36}
+                    height={36}
+                    className="h-7 w-7 object-contain"
+                  />
+                ) : (
+                  <span className="text-xs font-semibold text-muted">
+                    {item.name
+                      .split(" ")
+                      .map((w) => w[0])
+                      .join("")
+                      .slice(0, 2)}
+                  </span>
+                )}
               </div>
               <p className="flex-1 text-sm font-medium">{item.name}</p>
               <span className="text-xs text-muted shrink-0">{item.date}</span>

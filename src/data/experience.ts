@@ -68,12 +68,14 @@ export const experience: ExperienceItem[] = [
 export interface CompanyItem {
   name: string;
   date: string;
+  logo?: string;
 }
 
 export const companies: CompanyItem[] = [
   {
     name: "ZADE OPS LLC",
     date: "2025–Present",
+    logo: "/logos/zadeops.png",
   },
   {
     name: "ZADE AVIATION LLC",
