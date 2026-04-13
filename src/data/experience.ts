@@ -80,5 +80,6 @@ export const companies: CompanyItem[] = [
   {
     name: "ZADE AVIATION LLC",
     date: "2024–Present",
+    logo: "/logos/zadeaviation.png",
   },
 ];
