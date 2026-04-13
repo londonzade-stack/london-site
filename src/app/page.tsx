@@ -41,20 +41,23 @@ export default function Home() {
 
       {/* Experience */}
       <section className="mb-16">
-        <h2 className="text-lg font-semibold mb-6">Experience</h2>
-        <div className="space-y-3">
+        <h2 className="text-lg font-semibold mb-4">Experience</h2>
+        <div className="rounded-xl border border-neutral-200 bg-neutral-50/50 overflow-hidden divide-y divide-neutral-200">
           {experience.map((item) => (
-            <div
+            <a
               key={`${item.company}-${item.date}`}
-              className="flex items-center gap-4 rounded-lg border border-neutral-200 px-4 py-3 transition-colors hover:bg-neutral-50"
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-neutral-100/80"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white border border-neutral-200">
                 <Image
                   src={item.logo}
                   alt={item.company}
-                  width={40}
-                  height={40}
-                  className="h-8 w-8 object-contain"
+                  width={36}
+                  height={36}
+                  className="h-7 w-7 object-contain"
                 />
               </div>
               <div className="flex-1 min-w-0">
@@ -64,21 +67,21 @@ export default function Home() {
                 <p className="text-sm text-muted">{item.company}</p>
               </div>
               <span className="text-xs text-muted shrink-0">{item.date}</span>
-            </div>
+            </a>
           ))}
         </div>
       </section>
 
       {/* Companies */}
       <section>
-        <h2 className="text-lg font-semibold mb-6">Companies</h2>
-        <div className="space-y-3">
+        <h2 className="text-lg font-semibold mb-4">Companies</h2>
+        <div className="rounded-xl border border-neutral-200 bg-neutral-50/50 overflow-hidden divide-y divide-neutral-200">
           {companies.map((item) => (
             <div
               key={item.name}
-              className="flex items-center gap-4 rounded-lg border border-neutral-200 px-4 py-3 transition-colors hover:bg-neutral-50"
+              className="flex items-center gap-4 px-4 py-3"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-neutral-100">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white border border-neutral-200">
                 <span className="text-xs font-semibold text-muted">
                   {item.name
                     .split(" ")
