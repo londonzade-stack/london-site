@@ -21,17 +21,17 @@ export default function BlogPage() {
   return (
     <div>
       <h1 className="text-3xl font-bold tracking-tight mb-8">Blog</h1>
-      <div className="space-y-1">
+      <div>
         {posts.map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className="flex items-baseline justify-between gap-4 py-3 border-b border-border group"
+            className="group block py-4 border-b border-neutral-200 first:border-t transition-colors hover:opacity-70"
           >
-            <span className="font-medium text-sm group-hover:text-muted transition-colors">
-              {post.title}
-            </span>
-            <span className="text-sm text-muted shrink-0">{post.date}</span>
+            <p className="text-sm font-medium">{post.title}</p>
+            {post.description && (
+              <p className="text-sm text-muted mt-0.5">{post.description}</p>
+            )}
           </Link>
         ))}
       </div>
