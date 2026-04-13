@@ -31,36 +31,28 @@ export default function Home() {
       {/* Experience */}
       <section className="mb-16">
         <h2 className="text-lg font-semibold mb-6">Experience</h2>
-        <div className="space-y-0">
+        <div className="space-y-3">
           {experience.map((item) => (
             <div
               key={`${item.company}-${item.date}`}
-              className="flex items-start justify-between gap-4 py-3 border-b border-border"
+              className="flex items-center gap-4 rounded-lg border border-neutral-200 px-4 py-3 transition-colors hover:bg-neutral-50"
             >
-              <div className="flex items-center gap-4 min-w-0">
-                {item.logo ? (
-                  <Image
-                    src={item.logo}
-                    alt={item.company}
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 shrink-0 rounded-full object-contain bg-neutral-100"
-                  />
-                ) : (
-                  <div className="h-10 w-10 shrink-0 rounded-full bg-neutral-100 flex items-center justify-center text-xs font-medium text-muted">
-                    {item.company
-                      .split(" ")
-                      .map((w) => w[0])
-                      .join("")
-                      .slice(0, 2)}
-                  </div>
-                )}
-                <div className="min-w-0">
-                  <p className="font-medium text-sm">{item.title}</p>
-                  <p className="text-sm text-muted">{item.company}</p>
-                </div>
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white">
+                <Image
+                  src={item.logo}
+                  alt={item.company}
+                  width={40}
+                  height={40}
+                  className="h-8 w-8 object-contain"
+                />
               </div>
-              <span className="text-sm text-muted shrink-0">{item.date}</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium leading-tight">
+                  {item.title}
+                </p>
+                <p className="text-sm text-muted">{item.company}</p>
+              </div>
+              <span className="text-xs text-muted shrink-0">{item.date}</span>
             </div>
           ))}
         </div>
@@ -69,23 +61,23 @@ export default function Home() {
       {/* Companies */}
       <section>
         <h2 className="text-lg font-semibold mb-6">Companies</h2>
-        <div className="space-y-0">
+        <div className="space-y-3">
           {companies.map((item) => (
             <div
               key={item.name}
-              className="flex items-center justify-between gap-4 py-3 border-b border-border"
+              className="flex items-center gap-4 rounded-lg border border-neutral-200 px-4 py-3 transition-colors hover:bg-neutral-50"
             >
-              <div className="flex items-center gap-4">
-                <div className="h-10 w-10 shrink-0 rounded-full bg-neutral-100 flex items-center justify-center text-xs font-medium text-muted">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-neutral-100">
+                <span className="text-xs font-semibold text-muted">
                   {item.name
                     .split(" ")
                     .map((w) => w[0])
                     .join("")
                     .slice(0, 2)}
-                </div>
-                <p className="font-medium text-sm">{item.name}</p>
+                </span>
               </div>
-              <span className="text-sm text-muted shrink-0">{item.date}</span>
+              <p className="flex-1 text-sm font-medium">{item.name}</p>
+              <span className="text-xs text-muted shrink-0">{item.date}</span>
             </div>
           ))}
         </div>
