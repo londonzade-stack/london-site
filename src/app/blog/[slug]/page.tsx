@@ -31,12 +31,14 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <article>
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">
+      <header className="mb-10">
+        <h1 className="font-display text-4xl sm:text-5xl tracking-tight leading-[1.05]">
           {post.meta.title}
         </h1>
         {post.meta.date && (
-          <p className="text-sm text-muted mt-2">{post.meta.date}</p>
+          <p className="text-sm text-muted mt-3 font-mono tracking-tight">
+            {post.meta.date}
+          </p>
         )}
       </header>
       <div className="prose">

@@ -86,7 +86,9 @@ const apps: AppItem[] = [
 export default function AppsPage() {
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-8">Apps</h1>
+      <h1 className="font-display text-5xl tracking-tight mb-10 leading-[1]">
+        Apps
+      </h1>
       <div>
         {apps.map((app) => (
           <a
@@ -94,10 +96,19 @@ export default function AppsPage() {
             href={app.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="group block py-4 border-b border-neutral-200 first:border-t transition-colors hover:opacity-70"
+            className="group relative block py-5 border-b border-border first:border-t transition-colors hover:bg-highlight -mx-4 px-4"
           >
-            <p className="text-sm font-medium">{app.name}</p>
-            <p className="text-sm text-muted mt-0.5">{app.description}</p>
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-[15px] font-medium tracking-tight">
+                  {app.name}
+                </p>
+                <p className="text-sm text-muted mt-1">{app.description}</p>
+              </div>
+              <span className="shrink-0 text-muted group-hover:text-foreground group-hover:translate-x-0.5 transition-all">
+                &rarr;
+              </span>
+            </div>
           </a>
         ))}
       </div>
