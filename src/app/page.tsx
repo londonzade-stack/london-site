@@ -97,7 +97,7 @@ export default function Home() {
                   alt={item.company}
                   width={40}
                   height={40}
-                  className="h-8 w-8 object-contain"
+                  className="h-8 w-8 object-contain grayscale transition-[filter] duration-300 group-hover:grayscale-0"
                 />
               </div>
               <div className="flex-1 min-w-0">
