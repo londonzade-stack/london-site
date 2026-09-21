@@ -11,6 +11,30 @@ interface AppItem {
 
 const apps: AppItem[] = [
   {
+    name: "3D Brick Builder",
+    description:
+      "AI that turns any prompt into a buildable LEGO-compatible model with a parts list and step-by-step instructions.",
+    href: "https://3dbrickbuilder.com/",
+  },
+  {
+    name: "Fly Zade",
+    description:
+      "Owner-first aircraft management under Part 91 — maintenance oversight, crew coordination, hangar and records.",
+    href: "https://flyzade.com/",
+  },
+  {
+    name: "Zade's UAV",
+    description:
+      "FAA Part 107 drone photography and 4K video for roof, building, and property inspections.",
+    href: "https://zadesuav.com/",
+  },
+  {
+    name: "Perfect Barndo",
+    description:
+      "Custom home, barndo, and garage builder — describe your building and get a concept model in seconds.",
+    href: "https://perfectbarndo.com/",
+  },
+  {
     name: "Emailligence.ai",
     description:
       "AI-powered email management — search, draft, organize, and analyze your inbox.",
