@@ -33,7 +33,7 @@ export default function Home() {
       {/* Intro */}
       <section className="mb-20">
         <p className="label mb-4">
-          <span className="text-accent">//</span> Pilot &middot; Entrepreneur
+          <span className="text-accent">{"//"}</span> Pilot &middot; Entrepreneur
           &middot; Builder
         </p>
         <h1 className="font-display text-5xl sm:text-[4.25rem] font-bold uppercase tracking-tight leading-[0.95] mb-4">

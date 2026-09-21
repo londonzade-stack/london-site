@@ -13,7 +13,7 @@ export default function BlogPage() {
     return (
       <div>
         <p className="label mb-3">
-          <span className="text-accent">//</span> Log
+          <span className="text-accent">{"//"}</span> Log
         </p>
         <h1 className="font-display text-5xl sm:text-6xl font-bold uppercase tracking-tight leading-[0.95] mb-4">
           Blog
@@ -28,7 +28,7 @@ export default function BlogPage() {
       <div className="mb-10 flex items-end justify-between gap-4">
         <div>
           <p className="label mb-3">
-            <span className="text-accent">//</span> Log
+            <span className="text-accent">{"//"}</span> Log
           </p>
           <h1 className="font-display text-5xl sm:text-6xl font-bold uppercase tracking-tight leading-[0.95]">
             Blog

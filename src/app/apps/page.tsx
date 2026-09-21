@@ -113,7 +113,7 @@ export default function AppsPage() {
       <div className="mb-10 flex items-end justify-between gap-4">
         <div>
           <p className="label mb-3">
-            <span className="text-accent">//</span> Index
+            <span className="text-accent">{"//"}</span> Index
           </p>
           <h1 className="font-display text-5xl sm:text-6xl font-bold uppercase tracking-tight leading-[0.95]">
             ZADE

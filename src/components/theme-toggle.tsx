@@ -1,32 +1,29 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 
+/**
+ * Icon visibility is driven purely by the `.dark` class on <html> (via the
+ * `dark:` variant), so there's no mounted-state effect and no hydration flash.
+ */
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  const isDark = mounted && (resolvedTheme === "dark" || theme === "dark");
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <button
       type="button"
       aria-label="Toggle theme"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative ml-auto flex h-8 w-8 items-center justify-center border border-border text-muted transition-all hover:border-accent hover:text-accent hover:shadow-[0_0_12px_var(--accent-glow)]"
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      className="ml-auto flex h-8 w-8 items-center justify-center border border-border text-muted transition-all hover:border-accent hover:text-accent hover:shadow-[0_0_12px_var(--accent-glow)]"
     >
-      {/* Sun icon (shown in dark mode) */}
+      {/* Sun icon — shown in dark mode */}
       <svg
-        className={`h-4 w-4 transition-all ${
-          isDark ? "scale-100 rotate-0" : "scale-0 -rotate-90 absolute"
-        }`}
+        className="hidden h-4 w-4 dark:block"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
         strokeWidth={1.75}
+        aria-hidden="true"
       >
         <circle cx="12" cy="12" r="4" />
         <path
@@ -34,15 +31,14 @@ export function ThemeToggle() {
           d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
         />
       </svg>
-      {/* Moon icon (shown in light mode) */}
+      {/* Moon icon — shown in light mode */}
       <svg
-        className={`h-4 w-4 transition-all ${
-          isDark ? "scale-0 rotate-90 absolute" : "scale-100 rotate-0"
-        }`}
+        className="block h-4 w-4 dark:hidden"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
         strokeWidth={1.75}
+        aria-hidden="true"
       >
         <path
           strokeLinecap="round"
