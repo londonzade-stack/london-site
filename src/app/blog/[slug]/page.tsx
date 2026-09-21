@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { MDXContent } from "@/components/mdx-content";
@@ -32,14 +33,21 @@ export default async function PostPage({ params }: Props) {
   return (
     <article>
       <header className="mb-10">
-        <h1 className="font-display text-4xl sm:text-5xl tracking-tight leading-[1.05]">
+        <Link
+          href="/blog"
+          className="label inline-flex items-center gap-2 mb-4 hover:text-foreground transition-colors"
+        >
+          <span className="text-accent">&larr;</span> Log
+        </Link>
+        <h1 className="font-display text-4xl sm:text-5xl font-bold uppercase tracking-tight leading-[1]">
           {post.meta.title}
         </h1>
         {post.meta.date && (
-          <p className="text-sm text-muted mt-3 font-mono tracking-tight">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mt-4">
             {post.meta.date}
           </p>
         )}
+        <div className="mt-6 h-px w-full bg-border" />
       </header>
       <div className="prose">
         <MDXContent source={post.content} />

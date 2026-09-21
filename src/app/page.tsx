@@ -2,21 +2,53 @@ import Image from "next/image";
 import { socials } from "@/data/socials";
 import { experience, companies } from "@/data/experience";
 
+function SectionHeader({
+  index,
+  title,
+  count,
+}: {
+  index: string;
+  title: string;
+  count: number;
+}) {
+  return (
+    <div className="mb-4 flex items-center gap-3">
+      <span className="font-mono text-[11px] tracking-[0.18em] text-accent">
+        {index}
+      </span>
+      <h2 className="font-display text-sm font-semibold uppercase tracking-[0.22em]">
+        {title}
+      </h2>
+      <span className="h-px flex-1 bg-border" />
+      <span className="font-mono text-[11px] tracking-[0.18em] text-muted">
+        {String(count).padStart(2, "0")}
+      </span>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div>
       {/* Intro */}
       <section className="mb-20">
-        <h1 className="font-display text-5xl sm:text-6xl tracking-tight mb-2 leading-[1]">
+        <p className="label mb-4">
+          <span className="text-accent">//</span> Pilot &middot; Entrepreneur
+          &middot; Builder
+        </p>
+        <h1 className="font-display text-5xl sm:text-[4.25rem] font-bold uppercase tracking-tight leading-[0.95] mb-4">
           London Zade
+          <span aria-hidden="true" className="blink text-accent">
+            _
+          </span>
         </h1>
-        <p className="text-muted mb-5 text-[15px]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted mb-6">
           Corporate pilot for{" "}
           <a
             href="https://www.flyslate.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-foreground underline underline-offset-4 decoration-border-strong hover:decoration-foreground transition-all"
+            className="text-foreground border-b border-border-strong hover:border-accent hover:text-accent transition-colors"
           >
             Slate Aviation
           </a>
@@ -26,18 +58,18 @@ export default function Home() {
           fighters in the Air National Guard, I build companies and apps on the
           side. Always chasing the next thing worth building.
         </p>
-        <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
+        <div className="mt-7 flex flex-wrap gap-2">
           {socials.map(({ label, href }) => (
             <a
               key={label}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group text-sm text-muted hover:text-foreground transition-colors inline-flex items-center gap-1"
+              className="group inline-flex items-center gap-1.5 border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted transition-all hover:border-accent hover:text-foreground hover:shadow-[0_0_14px_var(--accent-glow)]"
             >
               {label}
-              <span className="transition-transform group-hover:translate-x-0.5">
-                &rarr;
+              <span className="text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                &#8599;
               </span>
             </a>
           ))}
@@ -46,11 +78,9 @@ export default function Home() {
 
       {/* Experience */}
       <section className="mb-16">
-        <h2 className="font-display text-2xl mb-5 tracking-tight">
-          Experience
-        </h2>
-        <div className="rounded-xl border border-border bg-surface overflow-hidden divide-y divide-border">
-          {experience.map((item) => (
+        <SectionHeader index="01" title="Experience" count={experience.length} />
+        <div className="tech-card divide-y divide-border">
+          {experience.map((item, i) => (
             <a
               key={`${item.company}-${item.date}`}
               href={item.href}
@@ -58,7 +88,10 @@ export default function Home() {
               rel="noopener noreferrer"
               className="group flex items-center gap-4 px-4 py-3.5 transition-colors hover:bg-highlight"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white border border-border ring-1 ring-black/[0.02]">
+              <span className="hidden sm:block w-5 font-mono text-[10px] tracking-[0.14em] text-muted/60 group-hover:text-accent transition-colors">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-white border border-border ring-1 ring-black/[0.02]">
                 <Image
                   src={item.logo}
                   alt={item.company}
@@ -68,12 +101,12 @@ export default function Home() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium leading-tight group-hover:text-foreground">
+                <p className="text-sm font-medium leading-tight tracking-tight">
                   {item.title}
                 </p>
                 <p className="text-sm text-muted">{item.company}</p>
               </div>
-              <span className="text-xs font-mono text-muted shrink-0 tracking-tight">
+              <span className="text-[11px] font-mono text-muted shrink-0 tracking-[0.08em] group-hover:text-accent transition-colors">
                 {item.date}
               </span>
             </a>
@@ -83,14 +116,17 @@ export default function Home() {
 
       {/* Companies */}
       <section>
-        <h2 className="font-display text-2xl mb-5 tracking-tight">Companies</h2>
-        <div className="rounded-xl border border-border bg-surface overflow-hidden divide-y divide-border">
-          {companies.map((item) => (
+        <SectionHeader index="02" title="Companies" count={companies.length} />
+        <div className="tech-card divide-y divide-border">
+          {companies.map((item, i) => (
             <div
               key={item.name}
-              className="flex items-center gap-4 px-4 py-3.5"
+              className="group flex items-center gap-4 px-4 py-3.5 transition-colors hover:bg-highlight"
             >
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white border border-border ring-1 ring-black/[0.02] p-1.5">
+              <span className="hidden sm:block w-5 font-mono text-[10px] tracking-[0.14em] text-muted/60 group-hover:text-accent transition-colors">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-white border border-border ring-1 ring-black/[0.02] p-1.5">
                 {item.logo ? (
                   <Image
                     src={item.logo}
@@ -109,10 +145,10 @@ export default function Home() {
                   </span>
                 )}
               </div>
-              <p className="flex-1 text-sm font-medium tracking-tight">
+              <p className="flex-1 font-display text-sm font-semibold tracking-[0.06em]">
                 {item.name}
               </p>
-              <span className="text-xs font-mono text-muted shrink-0 tracking-tight">
+              <span className="text-[11px] font-mono text-muted shrink-0 tracking-[0.08em] group-hover:text-accent transition-colors">
                 {item.date}
               </span>
             </div>

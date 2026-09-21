@@ -1,25 +1,34 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Tokens — dark is the default look; light is the alternate.
+   --------------------------------------------------------------------------- */
 :root {
-  --background: #fafaf9;
+  --background: #f5f5f3;
   --surface: #ffffff;
-  --foreground: #0a0a0a;
-  --muted: #737373;
-  --border: #e7e5e4;
-  --border-strong: #d6d3d1;
-  --accent: #0a0a0a;
-  --highlight: #f5f5f4;
+  --foreground: #0b0b0d;
+  --muted: #64646c;
+  --border: #dedddb;
+  --border-strong: #c4c3bf;
+  --accent: #0a7a47;
+  --accent-glow: rgba(10, 122, 71, 0.14);
+  --highlight: #ecece9;
+  --grid: rgba(0, 0, 0, 0.07);
 }
 
 .dark {
-  --background: #0a0a0a;
-  --surface: #141414;
-  --foreground: #fafafa;
-  --muted: #a3a3a3;
-  --border: #262626;
-  --border-strong: #404040;
-  --accent: #fafafa;
-  --highlight: #171717;
+  --background: #060608;
+  --surface: #0c0c0f;
+  --foreground: #f1f1ee;
+  --muted: #86868f;
+  --border: #1b1b20;
+  --border-strong: #2b2b32;
+  --accent: #47ff9c;
+  --accent-glow: rgba(71, 255, 156, 0.16);
+  --highlight: #111115;
+  --grid: rgba(255, 255, 255, 0.05);
 }
 
 @theme inline {
@@ -30,10 +39,11 @@
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
+  --color-accent-glow: var(--accent-glow);
   --color-highlight: var(--highlight);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-instrument-serif);
+  --font-display: var(--font-chakra-petch);
 }
 
 html {
@@ -45,6 +55,7 @@ html.dark {
 }
 
 body {
+  position: relative;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
@@ -52,22 +63,116 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle page background texture in dark mode */
-.dark body {
-  background-image: radial-gradient(
-    ellipse at top,
-    rgba(255, 255, 255, 0.03),
-    transparent 60%
-  );
+/* ---------------------------------------------------------------------------
+   Backdrop — dot grid that fades out, plus a signal-colored glow up top.
+   --------------------------------------------------------------------------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: radial-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 92vh);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 92vh);
 }
 
-/* Selection styling */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    60% 40% at 50% -10%,
+    var(--accent-glow),
+    transparent 70%
+  );
+  opacity: 0.9;
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------------------- */
+
+/* Monospace uppercase micro-label */
+.label {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* HUD-style card: hairline box with accent corner ticks */
+.tech-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.tech-card::before,
+.tech-card::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+
+.tech-card::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid var(--accent);
+  border-left: 1px solid var(--accent);
+}
+
+.tech-card::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid var(--accent);
+  border-right: 1px solid var(--accent);
+}
+
+/* Blinking terminal cursor */
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: blink 1.1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blink {
+    animation: none;
+  }
+}
+
+/* Keyboard focus in signal color */
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Selection */
 ::selection {
-  background: var(--foreground);
+  background: var(--accent);
   color: var(--background);
 }
 
-/* Prose styles for blog posts */
+/* ---------------------------------------------------------------------------
+   Prose (blog posts)
+   --------------------------------------------------------------------------- */
 .prose {
   max-width: 65ch;
   line-height: 1.8;
@@ -81,29 +186,33 @@ body {
 }
 
 .prose h1 {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 2.25rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
   margin-bottom: 1rem;
   margin-top: 3rem;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 
 .prose h2 {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 1.625rem;
-  font-weight: 400;
-  letter-spacing: -0.015em;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: -0.005em;
   margin-bottom: 0.75rem;
   margin-top: 2.5rem;
   line-height: 1.25;
 }
 
 .prose h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
   margin-bottom: 0.5rem;
   margin-top: 1.75rem;
 }
@@ -114,11 +223,12 @@ body {
   text-decoration-color: var(--border-strong);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: text-decoration-color 0.15s;
+  transition: text-decoration-color 0.15s, color 0.15s;
 }
 
 .prose a:hover {
-  text-decoration-color: var(--foreground);
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 .prose strong {
@@ -146,11 +256,10 @@ body {
   content: "";
   position: absolute;
   left: 0;
-  top: 0.75em;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--muted);
+  top: 0.8em;
+  width: 6px;
+  height: 1px;
+  background: var(--accent);
 }
 
 .prose ol {
@@ -163,15 +272,18 @@ body {
   margin-bottom: 0.5rem;
 }
 
+.prose ol li::marker {
+  font-family: var(--font-mono), monospace;
+  color: var(--muted);
+}
+
 .prose blockquote {
-  border-left: 2px solid var(--border-strong);
+  border-left: 1px solid var(--accent);
   padding-left: 1.25rem;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
   font-style: italic;
   color: var(--muted);
   margin: 2rem 0;
-  letter-spacing: -0.01em;
 }
 
 .prose code {
@@ -180,14 +292,14 @@ body {
   background: var(--highlight);
   border: 1px solid var(--border);
   padding: 0.1em 0.4em;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .prose pre {
   background: var(--highlight);
   border: 1px solid var(--border);
   padding: 1rem 1.25rem;
-  border-radius: 10px;
+  border-radius: 2px;
   overflow-x: auto;
   margin: 1.5rem 0;
   font-size: 0.875rem;
@@ -201,7 +313,7 @@ body {
 }
 
 .prose img {
-  border-radius: 10px;
+  border-radius: 2px;
   margin: 2rem 0;
   border: 1px solid var(--border);
 }

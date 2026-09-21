@@ -13,9 +13,10 @@ export function ThemeToggle() {
 
   return (
     <button
+      type="button"
       aria-label="Toggle theme"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="ml-auto flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted transition-all hover:text-foreground hover:border-foreground/30"
+      className="relative ml-auto flex h-8 w-8 items-center justify-center border border-border text-muted transition-all hover:border-accent hover:text-accent hover:shadow-[0_0_12px_var(--accent-glow)]"
     >
       {/* Sun icon (shown in dark mode) */}
       <svg
