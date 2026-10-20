@@ -32,22 +32,15 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <article>
-      <header className="mb-10">
-        <Link
-          href="/blog"
-          className="label inline-flex items-center gap-2 mb-4 hover:text-foreground transition-colors"
-        >
-          <span className="text-accent">&larr;</span> Log
+      <header className="page-head">
+        <Link href="/blog" className="back-link">
+          <span aria-hidden="true">&larr;</span> Blog
         </Link>
-        <h1 className="font-display text-4xl sm:text-5xl font-bold uppercase tracking-tight leading-[1]">
+        <h1 className="page-title" style={{ fontSize: "clamp(34px, 7vw, 52px)" }}>
           {post.meta.title}
         </h1>
-        {post.meta.date && (
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mt-4">
-            {post.meta.date}
-          </p>
-        )}
-        <div className="mt-6 h-px w-full bg-border" />
+        {post.meta.description && <p className="page-sub">{post.meta.description}</p>}
+        {post.meta.date && <p className="page-sub">{post.meta.date}</p>}
       </header>
       <div className="prose">
         <MDXContent source={post.content} />
