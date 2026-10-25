@@ -1,13 +1,22 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import Link from "next/link";
 import { HomeEffects } from "@/components/home/home-effects";
 import { APPS_LINKED, apps } from "@/data/apps";
 import { companies, experience } from "@/data/experience";
 import { socials } from "@/data/socials";
+import { pageMetadata, SITE_DESCRIPTION, SITE_NAME } from "@/lib/metadata";
 import { getAllPosts } from "@/lib/posts";
 import "./home.css";
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 const years = (d: string) => d.replace("–Present", " — Now").replace("–", " — ");
+
+// The animated share card (scripts/og/render.mjs). Versioned by content, like Next does for og:image,
+// so link-preview caches never pair a new poster with an old clip. Only the homepage gets it.
+const videoHash = createHash("sha1").update(readFileSync(join(process.cwd(), "public/og/home.mp4"))).digest("hex").slice(0, 10);
+export const metadata = pageMetadata({ title: SITE_NAME, description: SITE_DESCRIPTION, path: "/", video: `/og/home.mp4?v=${videoHash}` });
 
 export default function Home() {
   const posts = getAllPosts();

@@ -1,0 +1,173 @@
+<!doctype html>
+<!--
+  Homepage share card, animated. Rendered frame-by-frame by scripts/og/render.mjs into
+  public/og/home.mp4 (og:video); its last frame becomes src/app/opengraph-image.png.
+  iMessage shows og:image, then autoplays the clip on a loop — so the clip starts and ends
+  on exactly that image: the jet scans out, the words dim, then the jet takes off back into
+  place while the words shimmer back in. Driven by window.__render(t) + a virtual clock.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  /* Same Geist files the inner-page cards use (served by render.mjs from src/assets/og). */
+  @font-face { font-family: Geist; font-weight: 400; src: url(/fonts/geist-regular.ttf) format("truetype"); }
+  @font-face { font-family: Geist; font-weight: 600; src: url(/fonts/geist-semibold.ttf) format("truetype"); }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #121314; color: #f3f4f2; font-family: Geist, sans-serif; -webkit-font-smoothing: antialiased; }
+  .layer { position: absolute; inset: 0; }
+  #trail { position: absolute; inset: 0; width: 1200px; height: 630px; }
+  .node { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px rgba(166, 243, 195, 0.18), 0 0 16px rgba(166, 243, 195, 0.75); }
+  .mark { position: absolute; left: 76px; top: 66px; display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+  .copy { position: absolute; left: 76px; top: 178px; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; font-size: 20px; color: #8d9196; }
+  .eyebrow .node { width: 7px; height: 7px; }
+  h1 { margin: 0; font-size: 104px; font-weight: 600; line-height: 0.96; letter-spacing: -0.055em; }
+  h1 .w { display: inline-block; padding-bottom: 0.08em; margin-bottom: -0.08em; color: transparent; -webkit-background-clip: text; background-clip: text; background-repeat: no-repeat; }
+  h1 .soft { font-weight: 400; }
+  /* Backed with the page colour so no background glyph touches the address (it read as "tondonzade"). */
+  .url { position: absolute; left: 68px; bottom: 58px; padding: 4px 8px; border-radius: 6px; background: #121314; font-size: 20px; color: #8d9196; letter-spacing: -0.01em; }
+</style>
+</head>
+<body>
+  <div class="layer" id="glyphs"></div>
+  <canvas id="trail" width="2400" height="1260"></canvas>
+  <div class="layer" id="jet"></div>
+  <div class="mark" id="mark"><span class="node"></span>London Zade</div>
+  <div class="copy">
+    <div class="eyebrow" id="eyebrow"><span class="node"></span>Corporate pilot · Founder · Builder</div>
+    <h1 id="h1"><span class="w">Flying</span> <span class="w">jets</span> <span class="w soft">and</span><br><span class="w">building</span> <span class="w">stuff.</span></h1>
+  </div>
+  <div class="url" id="url">londonzade.com</div>
+<script>
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const easeOut = (k) => 1 - Math.pow(1 - k, 3);
+const easeOutQuint = (k) => 1 - Math.pow(1 - k, 5);
+const easeInOut = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+
+/* Timeline, in seconds. Frame 0 and the last frame are identical (the og:image). */
+const T = {
+  out: [0.8, 1.45], // jet scans out where it rests
+  dim: { start: 0.85, step: 0.05, dur: 0.4 }, // words fade back to a dim placeholder, last word first
+  arrive: [1.45, 4.6], // takeoff back into the resting pose
+  drawIn: [1.45, 2.65],
+  sweep: [1.95, 3.6], // shimmer band that loads the words back in
+  lift: { start: 1.9, step: 0.13, dur: 0.6 },
+};
+const DIM = 0.14;
+
+/* The jet rolls in low and side-on, pitches up, climbs, then banks into the resting 3/4 pose. */
+const REST = { x: 0.755, y: 0.6, size: 0.94, rot: [17, 30, -3] };
+const START = { x: 1.1, y: 0.93, size: 0.8, rot: [12, 6, 0] };
+const PITCH = -14; // nose-up (negative) at the steepest part of the climb
+
+function jetPose(t) {
+  const k = seg(t, ...T.arrive);
+  const run = easeOut(k); // forward travel: quick off the line, settling in
+  const lift = easeInOut(seg(k, 0.2, 1)); // altitude lags the run: roll first, then climb
+  const climb = Math.pow(Math.sin(Math.PI * seg(k, 0.1, 0.92)), 1.4); // nose-up peaks mid-climb
+  const turn = easeInOut(seg(k, 0.2, 1)); // side-on → 3/4 view
+  const from = t < T.arrive[0] ? REST : START; // sits at rest while it scans out
+  return {
+    x: lerp(from.x, REST.x, run),
+    y: lerp(from.y, REST.y, lift),
+    size: lerp(from.size, REST.size, run),
+    rotation: [0, 1, 2].map((i) => lerp(from.rot[i], REST.rot[i], turn) + (i === 2 ? PITCH * climb : 0)),
+  };
+}
+
+/* Wireframe reveal (0 = gone, 1 = fully drawn), fed straight into the kit's draw intro. */
+function reveal(t) {
+  if (t < T.out[0]) return 1;
+  if (t < T.arrive[0]) return 1 - seg(t, ...T.out);
+  return seg(t, ...T.drawIn);
+}
+
+/* Headline: words dim to a placeholder, then one bright band sweeps across the whole headline —
+   solid behind it, dim ahead of it — as each word lifts back into focus. Word backgrounds share
+   one coordinate space (offset by each word's position) so the band reads as continuous. */
+const words = [...document.querySelectorAll("h1 .w")];
+let geo = null;
+function measure() {
+  const hb = document.getElementById("h1").getBoundingClientRect();
+  geo = { w: hb.width, h: hb.height, at: words.map((w) => { const r = w.getBoundingClientRect(); return [r.left - hb.left, r.top - hb.top]; }) };
+}
+function headline(t) {
+  const band = 0.16, p = lerp(-band, 1 + band, easeInOut(seg(t, ...T.sweep)));
+  const stop = (pos, rgb, a) => `rgba(${rgb},${a}) ${(clamp(pos) * 100).toFixed(2)}%`;
+  words.forEach((w, i) => {
+    const rgb = w.classList.contains("soft") ? "159,163,168" : "243,244,242";
+    const d0 = T.dim.start + (words.length - 1 - i) * T.dim.step;
+    const solid = 1 - easeOut(seg(t, d0, d0 + T.dim.dur)); // 1 → 0 as the word dims
+    const l0 = T.lift.start + i * T.lift.step;
+    const focus = t < l0 ? 1 - solid : 1 - easeOutQuint(seg(t, l0, l0 + T.lift.dur)); // 0 = sharp, 1 = sunk + soft
+    if (t < T.sweep[0] || t >= T.sweep[1]) {
+      const a = t >= T.sweep[1] ? 1 : lerp(DIM, 1, solid);
+      w.style.backgroundImage = `linear-gradient(rgba(${rgb},${a}), rgba(${rgb},${a}))`;
+    } else {
+      w.style.backgroundImage = `linear-gradient(105deg, ${stop(0, rgb, 1)}, ${stop(p - band, rgb, 1)}, ${stop(p, "255,255,255", 1)}, ${stop(p + band * 0.35, "214,255,231", 0.9)}, ${stop(p + band, rgb, DIM)}, ${stop(1, rgb, DIM)})`;
+    }
+    w.style.backgroundSize = `${geo.w * 1.6}px ${geo.h}px`;
+    w.style.backgroundPosition = `${-geo.at[i][0]}px ${-geo.at[i][1]}px`;
+    w.style.filter = focus <= 0 ? "none" : `blur(${focus * 5}px)`;
+    w.style.transform = focus <= 0 ? "none" : `translateY(${focus * 10}px)`;
+  });
+}
+
+/* Short-lived contrails from both engine nozzles, laid down only while the jet is still fast. */
+const trailCtx = document.getElementById("trail").getContext("2d");
+trailCtx.scale(2, 2);
+const TRAIL_LIFE = 1.0, history = { L: [], R: [] };
+const NOZZLE_AFT = 0.33; // the kit's engine anchors sit at the intake lip; the nozzle is this far aft (+x, model units)
+function contrails(t) {
+  trailCtx.clearRect(0, 0, 1200, 630);
+  const k = seg(t, ...T.arrive);
+  for (const side of ["L", "R"]) {
+    const e = jet.anchorsLocal["engine" + side];
+    const a = t >= T.arrive[0] && k < 0.75 && jet.anchor([e[0] + NOZZLE_AFT, e[1], e[2]])();
+    if (a) history[side].push({ x: a.x, y: a.y, t });
+    const pts = (history[side] = history[side].filter((pt) => t - pt.t < TRAIL_LIFE));
+    for (let i = 1; i < pts.length; i++) {
+      const life = 1 - (t - pts[i].t) / TRAIL_LIFE;
+      trailCtx.strokeStyle = `rgba(255,255,255,${0.42 * life * life})`;
+      trailCtx.lineWidth = 1.1 + 1.6 * (1 - life);
+      trailCtx.beginPath();
+      trailCtx.moveTo(pts[i - 1].x, pts[i - 1].y);
+      trailCtx.lineTo(pts[i].x, pts[i].y);
+      trailCtx.stroke();
+    }
+  }
+}
+
+let jet = null, glyphs = null;
+const STEP = 1 / 60; // matches render.mjs; the kit adds one step to its intro clock per tick
+window.__render = (t) => {
+  if (!geo) measure();
+  headline(t);
+  const pose = jetPose(t);
+  jet.set({ x: pose.x, y: pose.y, size: pose.size, rotation: pose.rotation });
+  const r = reveal(t); // drive the kit's draw intro directly so it can run backwards too
+  if (r >= 1) jet.intro = 1;
+  else { jet.intro = 0; jet.introT = r * jet.o.introDuration - STEP; }
+  jet.set({ opacity: clamp(r / 0.06) }); // the nose-tip vertex ignores the reveal; hide it while (nearly) undrawn
+};
+window.__afterTick = (t) => contrails(t);
+
+window.TECHBIO_THREE_URL = "/vendor/three-0.160.0.module.min.js";
+const kit = document.createElement("script");
+kit.src = "/techbio-kit.js";
+kit.onload = async () => {
+  const TB = window.TechBio;
+  glyphs = TB.glyphField("#glyphs", { shape: "sphere", x: 0.2, y: 1.02, size: 1.3, opacity: 0.5, intro: "none", parallax: 0, speed: 0, spin: 0, twinkle: 0 });
+  jet = TB.wireframe("#jet", { model: "jet", ...REST, rotation: REST.rot, drift: 0, parallax: 0, smoothing: 0, intro: "draw", introDuration: 1.3 });
+  await document.fonts.ready;
+  if (!document.fonts.check("600 104px Geist") || !document.fonts.check("400 20px Geist")) throw new Error("Geist failed to load");
+  const ready = () => new Promise((r) => { const check = () => (jet.ready && glyphs.ready ? r() : setTimeout(check, 50)); check(); });
+  await ready();
+  window.__ready = true;
+};
+document.head.appendChild(kit);
+</script>
+</body>
+</html>

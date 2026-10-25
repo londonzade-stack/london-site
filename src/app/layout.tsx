@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { pageMetadata, SITE_DESCRIPTION, SITE_NAME } from "@/lib/metadata";
+import { pageMetadata, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/metadata";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.londonzade.com"),
+  metadataBase: new URL(SITE_URL),
   ...pageMetadata({ title: SITE_NAME, description: SITE_DESCRIPTION, path: "/" }),
   applicationName: SITE_NAME,
   appleWebApp: { title: SITE_NAME },

@@ -91,7 +91,20 @@ export async function renderOgCard({ eyebrow, title, description, path }: OgCard
             </div>
           )}
         </div>
-        <div style={{ position: "absolute", left: 76, bottom: 60, fontSize: 21, color: "#8d9196", letterSpacing: "-0.01em" }}>
+        {/* backed with the page colour so no background glyph touches the address */}
+        <div
+          style={{
+            position: "absolute",
+            left: 68,
+            bottom: 56,
+            padding: "4px 8px",
+            borderRadius: 6,
+            background: "#121314",
+            fontSize: 21,
+            color: "#8d9196",
+            letterSpacing: "-0.01em",
+          }}
+        >
           {`londonzade.com${path}`}
         </div>
       </div>
