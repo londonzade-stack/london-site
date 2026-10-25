@@ -1,3 +1,9 @@
+/**
+ * When false, apps are shown everywhere (with hover) but can't be clicked or
+ * opened — no links are rendered at all. Set back to true to re-enable.
+ */
+export const APPS_LINKED = false;
+
 export interface AppItem {
   name: string;
   description: string;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { HomeEffects } from "@/components/home/home-effects";
-import { apps } from "@/data/apps";
+import { APPS_LINKED, apps } from "@/data/apps";
 import { companies, experience } from "@/data/experience";
 import { socials } from "@/data/socials";
 import { getAllPosts } from "@/lib/posts";
@@ -192,21 +192,29 @@ export default function Home() {
               </div>
             </div>
             <div className="apps reveal">
-              {apps.map((app, i) => (
-                <a
-                  key={app.name}
-                  className={`app${i < 4 ? " new" : ""}`}
-                  href={app.href}
-                  title={app.description}
-                  {...external}
-                >
-                  <span className="n">{app.name}</span>
-                  <span className="d">{app.description}</span>
-                  <span className="a" aria-hidden="true">
-                    ↗
-                  </span>
-                </a>
-              ))}
+              {apps.map((app, i) => {
+                const className = `app${i < 4 ? " new" : ""}`;
+                const body = (
+                  <>
+                    <span className="n">{app.name}</span>
+                    <span className="d">{app.description}</span>
+                    {APPS_LINKED && (
+                      <span className="a" aria-hidden="true">
+                        ↗
+                      </span>
+                    )}
+                  </>
+                );
+                return APPS_LINKED ? (
+                  <a key={app.name} className={className} href={app.href} title={app.description} {...external}>
+                    {body}
+                  </a>
+                ) : (
+                  <div key={app.name} className={className} title={app.description}>
+                    {body}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
