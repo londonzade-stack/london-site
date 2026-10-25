@@ -1,18 +1,30 @@
-export const socials = [
+export interface Social {
+  label: string;
+  /** What's shown next to the label (handle, name or address). */
+  handle: string;
+  href: string;
+}
+
+export const socials: Social[] = [
   {
-    label: "X / Twitter",
-    href: "https://x.com/YOUR_TWITTER", // TODO: replace
-  },
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/YOUR_LINKEDIN", // TODO: replace
+    label: "X",
+    handle: "@londonzade__",
+    href: "https://x.com/londonzade__",
   },
   {
     label: "Instagram",
-    href: "https://instagram.com/YOUR_INSTAGRAM", // TODO: replace
+    handle: "@london.zade",
+    href: "https://www.instagram.com/london.zade/",
+  },
+  {
+    label: "LinkedIn",
+    handle: "London Kassab",
+    // TODO: swap for the exact profile URL (linkedin.com/in/...) once London sends it.
+    href: "https://www.linkedin.com/search/results/people/?keywords=London%20Kassab",
   },
   {
     label: "Email",
-    href: "mailto:YOUR_EMAIL@example.com", // TODO: replace
+    handle: "londonzade@gmail.com",
+    href: "mailto:londonzade@gmail.com",
   },
 ];

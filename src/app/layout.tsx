@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "London Zade",
     description,
+    creator: "@londonzade__",
   },
 };
 

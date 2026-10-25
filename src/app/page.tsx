@@ -75,7 +75,7 @@ export default function Home() {
                 Corporate pilot · Founder · Builder
               </div>
               <h1>
-                I fly jets <span className="soft">and</span> build companies.
+                Flying jets <span className="soft">and</span> building stuff.
               </h1>
               <p className="lede">
                 Pilot, entrepreneur, and builder. I fly jets, former wrencher on fighters in the Air
@@ -268,10 +268,16 @@ export default function Home() {
               Let&apos;s build <span className="soft">something worth building.</span>
             </h2>
             <div className="socials">
-              {socials.map(({ label }) => (
-                <span key={label}>
-                  {label} <small>soon</small>
-                </span>
+              {socials.map(({ label, handle, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(href.startsWith("mailto:") ? {} : external)}
+                  aria-label={`${label}: ${handle}`}
+                >
+                  {label} <small>{handle}</small>
+                  <i aria-hidden="true">↗</i>
+                </a>
               ))}
             </div>
             <div className="foot">
