@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { pageMetadata } from "@/lib/metadata";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { MDXContent } from "@/components/mdx-content";
 
@@ -16,10 +17,12 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return {};
-  return {
+  return pageMetadata({
     title: `${post.meta.title} — London Zade`,
     description: post.meta.description,
-  };
+    path: `/blog/${slug}`,
+    type: "article",
+  });
 }
 
 export default async function PostPage({ params }: Props) {

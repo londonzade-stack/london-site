@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { pageMetadata } from "@/lib/metadata";
 import { getAllPosts } from "@/lib/posts";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Blog — London Zade",
   description: "Thoughts on flying, building, and everything in between.",
-};
+  path: "/blog",
+});
 
 export default function BlogPage() {
   const posts = getAllPosts();

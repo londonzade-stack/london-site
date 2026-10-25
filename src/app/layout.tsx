@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { pageMetadata, SITE_DESCRIPTION, SITE_NAME } from "@/lib/metadata";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,25 +13,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const description = "Pilot, entrepreneur, and builder. Personal site of London Zade.";
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.londonzade.com"),
-  title: "London Zade",
-  description,
-  openGraph: {
-    title: "London Zade",
-    description,
-    url: "/",
-    siteName: "London Zade",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "London Zade",
-    description,
-    creator: "@londonzade__",
-  },
+  ...pageMetadata({ title: SITE_NAME, description: SITE_DESCRIPTION, path: "/" }),
+  applicationName: SITE_NAME,
+  appleWebApp: { title: SITE_NAME },
 };
 
 export const viewport: Viewport = {

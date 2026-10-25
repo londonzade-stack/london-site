@@ -1,9 +1,11 @@
 import { APPS_LINKED, apps } from "@/data/apps";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "ZADE — London Zade",
-  description: "Things I've built.",
-};
+  description: `Things I've built — ${apps.length} apps and counting.`,
+  path: "/apps",
+});
 
 export default function AppsPage() {
   return (
